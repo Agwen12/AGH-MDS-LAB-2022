@@ -48,7 +48,7 @@ public enum RuleSet {
             case DIAMOEBA -> rule.addAll(Arrays.asList(3, 5, 6, 7, 8));
             case DAYNIGHT -> rule.addAll(Arrays.asList(3, 6, 7, 8));
             case SEEDS, SNOWFLAKE -> rule.add(2);
-            
+
         }
 
         return rule;
