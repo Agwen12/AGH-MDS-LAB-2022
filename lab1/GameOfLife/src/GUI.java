@@ -4,11 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -23,6 +19,7 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 	private JButton clear;
 	private JSlider pred;
 	private JFrame frame;
+	private JComboBox changeRules;
 	private int iterNum = 0;
 	private final int maxDelay = 500;
 	private final int initDelay = 100;
@@ -60,9 +57,17 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 		pred.addChangeListener(this);
 		pred.setValue(maxDelay - timer.getDelay());
 
+		changeRules = new JComboBox(RuleSet.values());
+		changeRules.setActionCommand("changeRules");
+		changeRules.setToolTipText("Change rules");
+		changeRules.setSelectedIndex(0);
+		changeRules.addActionListener(this);
+
 		buttonPanel.add(start);
 		buttonPanel.add(clear);
 		buttonPanel.add(pred);
+		buttonPanel.add(changeRules);
+
 
 		board = new Board(1024, 768 - buttonPanel.getHeight());
 		container.add(board, BorderLayout.CENTER);
@@ -98,7 +103,11 @@ public class GUI extends JPanel implements ActionListener, ChangeListener {
 				start.setEnabled(true);
 				board.clear();
 				frame.setTitle("Cellular Automata Toolbox");
-			} 
+			}
+			else if (command.equals("changeRules")) {
+				RuleSet rule = RuleSet.getRule(changeRules.getSelectedIndex());
+				board.setRule(rule);
+			}
 
 		}
 	}

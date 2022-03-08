@@ -18,6 +18,12 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	private Point[][] points;
 	private int size = 14;
 
+	public void setRule(RuleSet rule) {
+		this.rule = rule;
+	}
+
+	private RuleSet rule = RuleSet.CLASSIC;
+
 	public Board(int length, int height) {
 		addMouseListener(this);
 		addComponentListener(this);
@@ -30,7 +36,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	public void iteration() {
 		for (int x = 0; x < points.length; ++x)
 			for (int y = 0; y < points[x].length; ++y)
-				points[x][y].calculateNewState();
+				points[x][y].calculateNewState(rule);
 
 		for (int x = 0; x < points.length; ++x)
 			for (int y = 0; y < points[x].length; ++y)
@@ -48,24 +54,32 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	}
 
 	private void initialize(int length, int height) {
-		points = new Point[length][height];
+		this.points = new Point[length][height];
 
 		for (int x = 0; x < points.length; ++x)
 			for (int y = 0; y < points[x].length; ++y)
 				points[x][y] = new Point();
 
-		for (int x = 1; x < points.length - 1; ++x) {
-			for (int y = 1; y < points[x].length - 1; ++y) {
+		for (int x = 0; x < points.length; ++x) {
+			for (int y = 0; y < points[x].length; ++y) {
 				//TODO: initialize the neighborhood of points[x][y] cell, periodic boundaries
-                    for (int i = -1; i < 2; i++) {
-                        for (int j = -1; j < 2; j++) {
-							if(i != 0 && j != 0) {
-								points[x][y].addNeighbor(points[x + i][y + j]);
+                    for (int i = -1; i <= 1; i++) {
+                        for (int j = -1; j <= 1; j++) {
+							if( (i != 0 || j != 0) && inBoundaries(x + i, y + j)) {
+								points[x][y]
+										.addNeighbor(points[x + i][y + j]);
+//								System.out.println("aaaaaaaaaaaaaaaaaaa");
 							}
                         }
                     }
+
 			}
 		}
+	}
+
+
+	private boolean inBoundaries(int x, int y) {
+		return (x < points.length && x >= 0 && y < points[0].length && y >= 0);
 	}
 
 	//paint background and separators between cells
