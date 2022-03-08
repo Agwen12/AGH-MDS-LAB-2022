@@ -6,7 +6,7 @@ public class Point {
 	private int currentState;
 	private int nextState;
 	private int numStates = 6;
-	private final static int DROPRATE = 3;
+	private final static int DROP_RATE = 3;
 	
 	public Point() {
 		currentState = 0;
@@ -37,7 +37,7 @@ public class Point {
 
 	public void drop() {
 		Random random = new Random();
-		if (random.nextInt(101) < DROPRATE) {
+		if (random.nextInt(101) < DROP_RATE) {
 			nextState = 6;
 		} else if (currentState > 0) {
 			nextState = currentState - 1;
