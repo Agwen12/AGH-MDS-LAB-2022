@@ -12,6 +12,7 @@ public class Point {
 
 	public static Integer[] types = {0, 1, 2};
 	public int type;
+	public int sinInput = 0;
 
 	public Point() {
 	    this.type = 0;
@@ -45,6 +46,12 @@ public class Point {
 	public void updatePressure() {
 		// TODO: pressure update
         if (this.type == 0) pressure = pressure - 0.5f * (nVel + eVel + wVel + sVel);
+
+        if (this.type == 2) {
+            double radians = Math.toRadians(sinInput);
+            pressure = (float) (Math.sin(radians));
+            this.sinInput = (sinInput + 10) % 360;
+        }
 	}
 
 	public float getPressure() {
