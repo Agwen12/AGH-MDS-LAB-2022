@@ -29,7 +29,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 
 		for (int x = 1; x < points.length - 1; ++x)
 			for (int y = 1; y < points[x].length - 1; ++y)
-				points[x][y].updatePresure();
+				points[x][y].updatePressure();
 		this.repaint();
 	}
 
@@ -51,9 +51,18 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 		for (int x = 1; x < points.length-1; ++x) {
 			for (int y = 1; y < points[x].length-1; ++y) {
 				// TODO: add von Neuman neighborhood
+                addNeighbors(x, y);
 			}
 		}
 	}
+
+	private void addNeighbors(int x, int y) {
+	    points[x][y].wNeighbor = points[x - 1][y];
+	    points[x][y].eNeighbor = points[x + 1][y];
+	    points[x][y].sNeighbor = points[x][y + 1];
+	    points[x][y].nNeighbor = points[x][y - 1];
+    }
+
 
 	protected void paintComponent(Graphics g) {
 		if (isOpaque()) {
