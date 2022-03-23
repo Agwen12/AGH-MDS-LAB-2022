@@ -31,6 +31,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
         for (int x = 0; x < points.length; ++x) {
             for (int y = 0; y < points[x].length; ++y) {
                 points[x][y].next = points[(x + 1) % points.length][y];
+                points[x][y].speed = 1;
             }
         }
     }
@@ -46,11 +47,20 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 
         for (int x = 0; x < points.length; ++x) {
             for (int y = 0; y < points[x].length; ++y) {
+                if (points[x][y].type == 1) {
+                    points[x][y].acceleration();
+                    points[x][y].slowDown();
+                    points[x][y].randomize();
+                }
                 points[x][y].move();
+
+
+
             }
         }
         this.repaint();
     }
+
 
     public void clear() {
         for (int x = 0; x < points.length; ++x)
